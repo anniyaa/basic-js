@@ -10,9 +10,20 @@ const { NotImplementedError } = require('../extensions/index.js');
  * For aabbbc should return 2a3bc
  *
  */
-function encodeLine(/* str */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function encodeLine(str) {
+  let result = '';
+  let avg = '';
+
+  for (let i=0; i<str.length; i++) {
+    if (str[i]===str[i+1]) {
+      avg+=str[i];
+    } else {
+      avg+=str[i];
+      result+=`${avg.length===1?'':avg.length}${str[i]}`;
+      avg = '';
+    }
+  }
+  return result;
 }
 
 module.exports = {
