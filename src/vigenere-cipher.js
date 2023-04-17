@@ -20,13 +20,49 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(type=true) {
+    this.machineType = type;
+    this.alph = 'abcdefghijklmnopqrstuvwxyz';
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+  encrypt(str, key) {
+    if (arguments.length<2 || str === undefined || key === undefined) {
+      throw new Error('Incorrect arguments!');
+    }
+
+    let res = '';
+    let iKey = 0;
+
+    for (let i=0; i<str.length; i++) {
+      if (this.alph.includes(str[i].toLowerCase())) {
+        console.log(str[i])
+        res += this.alph[(str[i].toLowerCase().charCodeAt()-97 + key[iKey % key.length].toLowerCase().charCodeAt()-97) % 26];
+        iKey++;
+      } else {
+        res += str[i];
+      }
+    }
+
+    return this.machineType ? res.toUpperCase() : res.toUpperCase().split('').reverse().join('');
+  }
+  decrypt(str, key) {
+    if (arguments.length<2 || str === undefined || key === undefined) {
+      throw new Error('Incorrect arguments!')
+    }
+
+    let res = '';
+    let iKey = 0;
+
+    for (let i=0; i<str.length; i++) {
+      if (this.alph.includes(str[i].toLowerCase())) {
+        res += this.alph[((str[i].toLowerCase().charCodeAt()-97) - (key[iKey % key.length].toLowerCase().charCodeAt()-97)+26) % 26];
+        iKey++;
+      } else {
+        res += str[i];
+      }
+    }
+
+    return this.machineType ? res.toUpperCase() : res.toUpperCase().split('').reverse().join('');
   }
 }
 
